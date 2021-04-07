@@ -51,7 +51,7 @@ plt.scatter(Xmean_train[:,3], ya_train, color='red')
 plt.scatter(Xmean_train[:,3], np.round(reg.predict(Xmean_train)), color='blue', alpha=0.2)
 plt.title('Sobreviveram x Idade (Treino)')
 plt.xlabel('Idade')
-plt.ylabel('Sobreviveram')
+plt.ylabel('Sobreviveram (1=Sim;0=Não)')
 plt.show()
 # %%
 ## Visualizando Resultados de Testes
@@ -60,7 +60,7 @@ plt.scatter(Xmean_test[:,3], ya_test, color='red')
 plt.scatter(Xmean_train[:,3], np.round(reg.predict(Xmean_train)), color='blue', alpha=0.2)
 plt.title('Sobreviveram x Idade (Teste)')
 plt.xlabel('Idade')
-plt.ylabel('Sobreviveram')
+plt.ylabel('Sobreviveram (1=Sim;0=Não)')
 plt.show()
 # %% Verificando o score do modelo
 reg.score(Xmean_train, ya_train) ## Muito baixo 0.39
