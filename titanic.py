@@ -64,5 +64,3 @@ plt.ylabel('Sobreviveram (1=Sim;0=Não)')
 plt.show()
 # %% Verificando o score do modelo
 reg.score(Xmean_train, ya_train) ## Muito baixo 0.39
-
-# %%
