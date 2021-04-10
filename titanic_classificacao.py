@@ -7,6 +7,13 @@ import seaborn as sns
 # %% Importação da base de dados e criação do Dataframe
 df = pd.read_csv('./titanic/train.csv')
 df.head()
+# %% Separando em Entrada e Saída
+X = df.iloc[:,[2,4,5]]
+y = df.Survived
+# %% Verificação de Missing
+print(f"A entrada X possui missing? {X.isnull().values.any()}")
+print(f"Quantos? {X.isnull().sum().sum()}")
+print(f"Quais colunas possuem missing? \n {X.isnull().sum()}")
 # %% Exclusão das linhas com missing
 df = df.dropna(subset=['Age'])
 df = df.reset_index(drop=True)
