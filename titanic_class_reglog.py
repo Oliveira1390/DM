@@ -71,8 +71,8 @@ def pred_and_evalue(X_test, y_test):
     plt.title('Matriz Confusão')
 
     ## Colocar nomes
-    ax.xaxis.set_ticklabels(['1', '0'])
-    ax.yaxis.set_ticklabels(['1', '0'])
+    ax.xaxis.set_ticklabels(['Sobreviveu', 'Morreu'])
+    ax.yaxis.set_ticklabels(['Sobreviveu', 'Morreu'])
     plt.show()
 # %% Execução do Método
 pred_and_evalue(X_test, y_test)
