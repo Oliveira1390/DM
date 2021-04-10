@@ -62,12 +62,12 @@ def pred_and_evalue(X_test, y_test):
 
     # Matriz Confusão
     from sklearn.metrics import confusion_matrix
-    confMatrix = confusion_matrix(y_pred, y_test)
+    confMatrix = confusion_matrix(y_test, y_pred)
     
     ax = plt.subplot()
     sns.heatmap(confMatrix, annot=True, fmt=".0f")
-    plt.xlabel('Real')
-    plt.ylabel('Previsto')
+    plt.xlabel('Previsto')
+    plt.ylabel('Real')
     plt.title('Matriz Confusão')
 
     ## Colocar nomes
