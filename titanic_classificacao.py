@@ -86,90 +86,90 @@ pred_and_evalue(X_test, y_test, model)
 # %%
 ##====================================================================##
 # %% Treinando Modelo - K-NN (K-Nearest Neighbors)
-#from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier
 
-#model = KNeighborsClassifier(n_neighbors=5)
-#model.fit(X_train,y_train)
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train,y_train)
 
 # %% Execução do Método de Matriz Confusão e Acc
-#print('Classificação: KNN')
-#pred_and_evalue(X_test, y_test, model)
+print('Classificação: KNN')
+pred_and_evalue(X_test, y_test, model)
 # %%
 ##====================================================================##
 # %% Grid Search
-#from sklearn.model_selection import GridSearchCV
-#from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import classification_report
 # Parâmetros a serem testados
-#tuned_parameters = [{'n_neighbors': [2, 3, 4, 5, 6, 7, 8, 9, 10]}]
-#print("# Tuning hyper-parâmetros parar F1 score")
-#print()
-#model = GridSearchCV(KNeighborsClassifier(), tuned_parameters, scoring='f1')
-#model.fit(X_train, y_train)
-#y_pred = model.predict(X_test)
-#print(classification_report(y_test, y_pred))
-#print()
+tuned_parameters = [{'n_neighbors': [2, 3, 4, 5, 6, 7, 8, 9, 10]}]
+print("# Tuning hyper-parâmetros parar F1 score")
+print()
+model = GridSearchCV(KNeighborsClassifier(), tuned_parameters, scoring='f1')
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+print()
 # %% Matriz Consfusão e Acc do Modelo GridSearch/KNN
-#print('Classificação: KNN com GridSearch')
-#pred_and_evalue(X_test,y_test,model)
+print('Classificação: KNN com GridSearch')
+pred_and_evalue(X_test,y_test,model)
 # %%
 ##====================================================================##
 # %% Treinando Modelo - SVM (Support Vector Machine)
-#from sklearn.svm import SVC
+from sklearn.svm import SVC
 
-#model = SVC(random_state=0)
-#model.fit(X_train, y_train)
+model = SVC(random_state=0)
+model.fit(X_train, y_train)
 # %% Avaliação do Modelo SVM
-#print('Classificação: SVM')
-#pred_and_evalue(X_test, y_test, model)
+print('Classificação: SVM')
+pred_and_evalue(X_test, y_test, model)
 # %%
 ##====================================================================##
 # %% Trainamento Modelo - Árvore de Decisão - Gini
-#from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier
 
-#model = DecisionTreeClassifier(min_samples_leaf=5, random_state=0, criterion='gini')
-#model.fit(X_train, y_train)
+model = DecisionTreeClassifier(min_samples_leaf=5, random_state=0, criterion='gini')
+model.fit(X_train, y_train)
 
 # %% Árvore de Decisão
-#from sklearn import tree
-#fig, ax = plt.subplots(figsize=(20,10))
-#tree.plot_tree(model, class_names=['Não Sobreviveu', 'Sobreviveu'],filled=True, rounded=True)
+from sklearn import tree
+fig, ax = plt.subplots(figsize=(20,10))
+tree.plot_tree(model, class_names=['Não Sobreviveu', 'Sobreviveu'],filled=True, rounded=True)
 
 # %% Avaliação do Modelo Árvore de Decisão (Gini - impurezas)
-#print('Classificação: Árvore de Decisão (Gini)')
-#pred_and_evalue(X_test, y_test, model)
+print('Classificação: Árvore de Decisão (Gini)')
+pred_and_evalue(X_test, y_test, model)
 # %%
 ##====================================================================##
 # %% Grid Search - Árvore de Decisão (Gini)
-#from sklearn.model_selection import GridSearchCV
-#from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import classification_report
 # Set the parameters by cross-validation
-#tuned_parameters = [{'criterion': ['gini', 'entropy'], 'max_depth': [2,4,6,8,10,12],
-#                     'min_samples_leaf': [1, 2, 3, 4, 5, 8, 10]}]
+tuned_parameters = [{'criterion': ['gini', 'entropy'], 'max_depth': [2,4,6,8,10,12],
+                     'min_samples_leaf': [1, 2, 3, 4, 5, 8, 10]}]
 
-#print("# Tuning hyper-parameters for F1 score")
-#print()
+print("# Tuning hyper-parameters for F1 score")
+print()
 
-#model = GridSearchCV(DecisionTreeClassifier(), tuned_parameters, scoring='f1')
-#model.fit(X_train, y_train)
+model = GridSearchCV(DecisionTreeClassifier(), tuned_parameters, scoring='f1')
+model.fit(X_train, y_train)
 
-#y_true, y_pred = y_test, model.predict(X_test)
-#print(classification_report(y_true, y_pred))
-#print()
+y_true, y_pred = y_test, model.predict(X_test)
+print(classification_report(y_true, y_pred))
+print()
 # %% Avaliação do GridSearch - Árvore de Decisão (Gini)
-#print('Classificação: GridSearch Árvore de Decisão (Gini)')
-#pred_and_evalue(X_test, y_test, model)
+print('Classificação: GridSearch Árvore de Decisão (Gini)')
+pred_and_evalue(X_test, y_test, model)
 # %% Melhores Parâmetros
-#print('Melhores Parâmetros:', model.best_params_)
+print('Melhores Parâmetros:', model.best_params_)
 # %% 
-#fig, ax = plt.subplots(figsize=(20, 10)) # Definir tamanho da imagem a ser gerada
-#tree.plot_tree(model.best_estimator_, class_names=['Não Sobreviveu', 'Sobreviveu'], 
-#               filled=True, rounded=True) ##, feature_names=data.columns); Ajustar para incluir esse parâmetro
+fig, ax = plt.subplots(figsize=(20, 10)) # Definir tamanho da imagem a ser gerada
+tree.plot_tree(model.best_estimator_, class_names=['Não Sobreviveu', 'Sobreviveu'], 
+               filled=True, rounded=True) ##, feature_names=data.columns); Ajustar para incluir esse parâmetro
 ##====================================================================##
 # %% Treinamento do Modelo Random Forest
-#from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
 
-#model = RandomForestClassifier(min_samples_leaf=5, random_state=0)
-#model.fit(X_train, y_train)
+model = RandomForestClassifier(min_samples_leaf=5, random_state=0)
+model.fit(X_train, y_train)
 # %% Avaliação do modelo
-#print('Classificação: Random Forest')
-#pred_and_evalue(X_test, y_test, model)
+print('Classificação: Random Forest')
+pred_and_evalue(X_test, y_test, model)
