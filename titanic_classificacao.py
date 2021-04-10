@@ -7,6 +7,9 @@ import seaborn as sns
 # %% Importação da base de dados e criação do Dataframe
 df = pd.read_csv('./titanic/train.csv')
 df.head()
+# %% Análise Exploratória
+import pandas_profiling as pp
+pp.ProfileReport(df=df)
 # %% Separando em Entrada e Saída
 X = df.iloc[:,[2,4,5]]
 y = df.Survived
