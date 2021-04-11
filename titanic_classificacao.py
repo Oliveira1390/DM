@@ -9,7 +9,9 @@ df = pd.read_csv('./titanic/train.csv')
 df.head()
 # %% Análise Exploratória
 import pandas_profiling as pp
-pp.ProfileReport(df=df)
+profile = pp.ProfileReport(df=df)
+# %%
+profile.to_file(output_file='Profile.html')
 # %% Separando em Entrada e Saída
 X = df.iloc[:,[2,4,5]]
 y = df.Survived
