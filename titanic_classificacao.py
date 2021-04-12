@@ -57,6 +57,12 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 cm = confusion_matrix(y_test, y_pred)
 print(cm)
 accuracy_score(y_test, y_pred)
+# %% Criação de um dataframe para resultados
+df_comp = pd.DataFrame( columns=['Modelo', 'ExclusaoMissing', 'GridSearch', 'Acurácia', 'Kappa', 'F1'])
+# %% Método para inserção dos valores do obtidos
+def inclui_resultado(modelo, exclusao_missing, grid_search, acuracia, k, f1):
+    i = df_comp.shape[0]
+    df_comp.loc[i] = [modelo, exclusao_missing, grid_search, acuracia, k, f1]
 # %% Matriz Confusão e Acc/Kappa/F1
 def pred_and_evalue(X_test, y_test, model):
 
@@ -91,9 +97,11 @@ def pred_and_evalue(X_test, y_test, model):
     ax.xaxis.set_ticklabels(['Sobreviveu', 'Morreu'])
     ax.yaxis.set_ticklabels(['Sobreviveu', 'Morreu'])
     plt.show()
+    return acuracia, k, f1
 # %% Execução do Método
 print('Classificação: Regressão Logística:')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('Regressão Logística', 1, 0, acuracia, k, f1)
 # %% Visualização do resultado de treino
 
 # %% Visualização do resultado de teste
@@ -108,7 +116,8 @@ model.fit(X_train,y_train)
 
 # %% Execução do Método de Matriz Confusão e Acc
 print('Classificação: KNN')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('KNN', 1, 0, acuracia, k, f1)
 # %%
 ##====================================================================##
 # %% Grid Search
@@ -125,7 +134,8 @@ print(classification_report(y_test, y_pred))
 print()
 # %% Matriz Consfusão e Acc do Modelo GridSearch/KNN
 print('Classificação: KNN com GridSearch')
-pred_and_evalue(X_test,y_test,model)
+acuracia, k, f1 = pred_and_evalue(X_test,y_test,model)
+inclui_resultado('KNN_GS', 1, 1, acuracia, k, f1)
 # %%
 ##====================================================================##
 # %% Treinando Modelo - SVM (Support Vector Machine)
@@ -135,7 +145,8 @@ model = SVC(random_state=0)
 model.fit(X_train, y_train)
 # %% Avaliação do Modelo SVM
 print('Classificação: SVM')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('SVM', 1, 0, acuracia, k, f1)
 # %%
 ##====================================================================##
 # %% Trainamento Modelo - Árvore de Decisão - Gini
@@ -151,7 +162,8 @@ tree.plot_tree(model, class_names=['Não Sobreviveu', 'Sobreviveu'],filled=True,
 
 # %% Avaliação do Modelo Árvore de Decisão (Gini - impurezas)
 print('Classificação: Árvore de Decisão (Gini)')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('Árvore Decisão', 1, 0, acuracia, k, f1)
 # %%
 ##====================================================================##
 # %% Grid Search - Árvore de Decisão (Gini)
@@ -172,7 +184,8 @@ print(classification_report(y_true, y_pred))
 print()
 # %% Avaliação do GridSearch - Árvore de Decisão (Gini)
 print('Classificação: GridSearch Árvore de Decisão (Gini)')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('Árvore Decisão_GS', 1, 1, acuracia, k, f1)
 # %% Melhores Parâmetros
 print('Melhores Parâmetros:', model.best_params_)
 # %% 
@@ -187,8 +200,8 @@ model = RandomForestClassifier(min_samples_leaf=5, random_state=0)
 model.fit(X_train, y_train)
 # %% Avaliação do modelo
 print('Classificação: Random Forest')
-pred_and_evalue(X_test, y_test, model)
-
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('Random Forest', 1, 0, acuracia, k, f1)
 # %%
 ##====================================================================##
 ##===========SUSTITUINDO OS MISSINGS PELA MÉDIA DAS IDADES============##
@@ -238,43 +251,10 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 cm = confusion_matrix(y_test, y_pred)
 print(cm)
 accuracy_score(y_test, y_pred)
-# %% Matriz Confusão e Acc/Kappa/F1
-def pred_and_evalue(X_test, y_test, model):
-
-    y_pred = model.predict(X_test)
-
-    # Acc
-    from sklearn.metrics import accuracy_score
-    acuracia = accuracy_score(y_test, y_pred)
-    print('Acurácia:', acuracia)
-
-    # Kappa
-    from sklearn.metrics import cohen_kappa_score
-    k = cohen_kappa_score(y_test, y_pred)
-    print('Kappa:', k)
-
-    # F1
-    from sklearn.metrics import f1_score
-    f1 = f1_score(y_test, y_pred)
-    print('F1:', f1)
-
-    # Matriz Confusão
-    from sklearn.metrics import confusion_matrix
-    confMatrix = confusion_matrix(y_test, y_pred)
-    
-    ax = plt.subplot()
-    sns.heatmap(confMatrix, annot=True, fmt=".0f")
-    plt.xlabel('Previsto')
-    plt.ylabel('Real')
-    plt.title('Matriz Confusão')
-
-    ## Colocar nomes
-    ax.xaxis.set_ticklabels(['Sobreviveu', 'Morreu'])
-    ax.yaxis.set_ticklabels(['Sobreviveu', 'Morreu'])
-    plt.show()
 # %% Execução do Método de Matriz Confusão e Acc
 print('Classificação: Regressão Logística:')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('Regressão Logística', 0, 0, acuracia, k, f1)
 # %% Treinando Modelo - K-NN (K-Nearest Neighbors)
 from sklearn.neighbors import KNeighborsClassifier
 
@@ -283,7 +263,8 @@ model.fit(X_train,y_train)
 
 # %% Execução do Método de Matriz Confusão e Acc
 print('Classificação: KNN')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('KNN', 0, 0, acuracia, k, f1)
 # %%
 ##====================================================================##
 # %% Grid Search
@@ -300,7 +281,8 @@ print(classification_report(y_test, y_pred))
 print()
 # %% Matriz Consfusão e Acc do Modelo GridSearch/KNN
 print('Classificação: KNN com GridSearch')
-pred_and_evalue(X_test,y_test,model)
+acuracia, k, f1 = pred_and_evalue(X_test,y_test,model)
+inclui_resultado('KNN_GS', 0, 1, acuracia, k, f1)
 # %%
 ##====================================================================##
 # %% Treinando Modelo - SVM (Support Vector Machine)
@@ -310,7 +292,8 @@ model = SVC(random_state=0)
 model.fit(X_train, y_train)
 # %% Avaliação do Modelo SVM
 print('Classificação: SVM')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('SVM', 0, 0, acuracia, k, f1)
 # %%
 ##====================================================================##
 # %% Trainamento Modelo - Árvore de Decisão - Gini
@@ -326,7 +309,8 @@ tree.plot_tree(model, class_names=['Não Sobreviveu', 'Sobreviveu'],filled=True,
 
 # %% Avaliação do Modelo Árvore de Decisão (Gini - impurezas)
 print('Classificação: Árvore de Decisão (Gini)')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('Árvore Decisão', 0, 0, acuracia, k, f1)
 # %%
 ##====================================================================##
 # %% Grid Search - Árvore de Decisão (Gini)
@@ -345,9 +329,10 @@ model.fit(X_train, y_train)
 y_true, y_pred = y_test, model.predict(X_test)
 print(classification_report(y_true, y_pred))
 print()
-# %% Avaliação do GridSearch - Árvore de Decisão (Gini)
-print('Classificação: GridSearch Árvore de Decisão (Gini)')
-pred_and_evalue(X_test, y_test, model)
+# %% Avaliação do GridSearch - Árvore de Decisão
+print('Classificação: GridSearch Árvore de Decisão')
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('Árvore Decisão_GS', 0, 1, acuracia, k, f1)
 # %% Melhores Parâmetros
 print('Melhores Parâmetros:', model.best_params_)
 # %% 
@@ -362,4 +347,7 @@ model = RandomForestClassifier(min_samples_leaf=5, random_state=0)
 model.fit(X_train, y_train)
 # %% Avaliação do modelo
 print('Classificação: Random Forest')
-pred_and_evalue(X_test, y_test, model)
+acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
+inclui_resultado('Random Forest', 0, 0, acuracia, k, f1)
+# %%
+print(df_comp)
