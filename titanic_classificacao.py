@@ -102,10 +102,6 @@ def pred_and_evalue(X_test, y_test, model):
 print('Classificação: Regressão Logística:')
 acuracia, k, f1 = pred_and_evalue(X_test, y_test, model)
 inclui_resultado('Regressão Logística', 1, 0, acuracia, k, f1)
-# %% Visualização do resultado de treino
-
-# %% Visualização do resultado de teste
-
 # %%
 ##====================================================================##
 # %% Treinando Modelo - K-NN (K-Nearest Neighbors)
